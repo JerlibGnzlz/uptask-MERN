@@ -1,9 +1,9 @@
 import { Router } from "express";
+import { registrar } from "../controllers/UsuarioController";
 
 const router = Router();
 
-router.get("/", (req, res) => {
-  res.send("desde la ruta");
-});
+router.post("/", registrar);
+
 
 export default router;
