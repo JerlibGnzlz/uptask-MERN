@@ -1,5 +1,5 @@
 import "dotenv/config";
-// import { dbConexion } from "./db";
+import { dbConexion } from "./db";
 import express from "express";
 import morgan from "morgan";
 
@@ -13,5 +13,5 @@ app.use(morgan("dev"));
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
-  //   dbConexion();
+  dbConexion();
 });
