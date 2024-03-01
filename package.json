@@ -21,12 +21,14 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.17",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.4",
     "@types/node": "^20.2.5",
+    "cors": "^2.8.5",
     "nodemon": "^3.1.0"
   }
 }
