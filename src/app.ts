@@ -3,6 +3,7 @@ import cors from "cors";
 import { dbConexion } from "./db";
 import express from "express";
 import morgan from "morgan";
+import userRoutes from "../src/routes/user.routes";
 
 const app = express();
 
@@ -21,9 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 // app.use(router);
-app.get("/", (req, res) => {
-  res.send("desde app");
-});
+app.use("/api/usuarios", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
