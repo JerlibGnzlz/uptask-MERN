@@ -4,20 +4,21 @@ import { Usermodel } from "../models/UserModel";
 
 export const registrar = async (req: Request, res: Response) => {
 
+    /**
+     * EVITAR REGISTROS DUPLICADO
+     */
+    const { email } = req.body
+    const existeUsuario = await Usermodel.findOne({ email })
+
+    if (existeUsuario) {
+        const error = new Error("El usuario ya existe")
+        res.status(400).json({ message: error.message })
+    }
 
     try {
-        const { nombre, email, password } = req.body
-
         const usuario = new Usermodel(req.body)
-
-        if (nombre === "" || email === "" || password === "") {
-            res.status(400).json({ message: "Todos los campos son rqueridos", usuario })
-            return
-        } else {
-
-            const usuarioAlmacenado = await usuario.save()
-            return usuarioAlmacenado
-        }
+        const usuarioAlmacenado = await usuario.save()
+        res.json({ usuarioAlmacenado })
 
     } catch (error) {
         console.log(error)
