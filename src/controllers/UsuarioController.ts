@@ -17,7 +17,7 @@ export const registrar = async (req: Request, res: Response) => {
 
     if (existeUsuario) {
         const error = new Error("El usuario ya existe")
-        res.status(400).json({ message: error.message })
+        res.status(400).json({ message: error.message, existeUsuario })
     }
 
     try {
