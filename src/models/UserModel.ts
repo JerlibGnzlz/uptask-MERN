@@ -1,4 +1,6 @@
 import { Schema, model } from "mongoose";
+import bcript from "bcrypt";
+
 import { User } from "../interfaces/user.Interfaces";
 
 const userSchema = new Schema(
@@ -32,5 +34,16 @@ const userSchema = new Schema(
     versionKey: false,
   }
 );
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password"))
+  {
+    next();
+  }
+
+  const salt = await bcript.genSalt(10);
+  this.password = await bcript.hash("this.password", salt);
+
+});
 
 export const Usermodel = model<User>("User", userSchema);
