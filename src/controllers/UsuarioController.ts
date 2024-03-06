@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Usermodel } from "../models/UserModel";
+import { generarId } from "../helpers/generarID"
 
 
 export const registrar = async (req: Request, res: Response) => {
@@ -7,10 +8,10 @@ export const registrar = async (req: Request, res: Response) => {
     /**
      * EVITAR REGISTROS DUPLICADO
      */
-    const { nombre, email, password } = req.body
+    const { email } = req.body
     const existeUsuario = await Usermodel.findOne({ email })
 
-    if (!nombre || !email || !password)
+    if (!email)
     {
         const error = new Error("Todos los campos son requeridos")
         return res.status(400).json({ msg: error.message })
@@ -25,6 +26,8 @@ export const registrar = async (req: Request, res: Response) => {
     try
     {
         const usuario = new Usermodel(req.body)
+        usuario.token = generarId()
+        usuario.confirmado = false
         const usuarioAlmacenado = await usuario.save()
         res.json({ usuarioAlmacenado })
 
