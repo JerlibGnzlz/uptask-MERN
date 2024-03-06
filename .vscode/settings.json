@@ -24,7 +24,7 @@
     "editor.formatOnType": true
   },
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
-  "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+  "typescript.format.placeOpenBraceOnNewLineForControlBlocks": false,
   "intelephense.phpdoc.functionTemplate": {
     "summary": "$1",
     "tags": [
@@ -41,5 +41,10 @@
   "editor.autoClosingDelete": "auto",
   "editor.autoClosingOvertype": "auto",
   "javascript.autoClosingTags": true,
-  "typescript.autoClosingTags": true
+  "typescript.autoClosingTags": true,
+  "editor.autoIndent": "brackets",
+  "editor.autoClosingBrackets": "languageDefined",
+  "typescript.format.placeOpenBraceOnNewLineForFunctions": false,
+  "editor.parameterHints.enabled": true,
+  "java.format.onType.enabled": true
 }

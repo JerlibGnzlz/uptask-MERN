@@ -3,6 +3,6 @@ export interface User {
   email: string;
   password: string;
   token: string;
-  confirmado: Boolean
+  confirmado: Boolean;
   compararPassword: () => Promise<Boolean>;
 }

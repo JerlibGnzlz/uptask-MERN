@@ -36,14 +36,12 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password"))
-  {
+  if (!this.isModified("password")) {
     next();
   }
 
   const salt = await bcript.genSalt(10);
   this.password = await bcript.hash("this.password", salt);
-
 });
 
 export const Usermodel = model<User>("User", userSchema);
