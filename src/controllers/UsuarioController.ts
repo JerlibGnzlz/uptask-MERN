@@ -8,7 +8,7 @@ export const registrar = async (req: Request, res: Response) => {
   /**
    * EVITAR REGISTROS DUPLICADO
    */
-  const { name, email, password } = req.body as IUser
+  const { nombre, email, password } = req.body as IUser
 
   const existeUsuario = await Usermodel.findOne({ email });
 
@@ -27,7 +27,7 @@ export const registrar = async (req: Request, res: Response) => {
 
     const passHash = await encryptPassword(password)
 
-    const usuario = new Usermodel({ name, email, password: passHash });
+    const usuario = new Usermodel({ nombre, email, password: passHash });
     usuario.token = generarId()
     const usuarioAlmacenado = await usuario.save()
     return res.status(201).json({ message: "Usuario creado con exito", usuarioAlmacenado });
@@ -39,7 +39,7 @@ export const registrar = async (req: Request, res: Response) => {
 
 export const autenticar = async (req: Request, res: Response) => {
 
-  const { email, password } = req.body as IUser
+  const { nombre, email, password } = req.body as IUser
 
   const usuario = await Usermodel.findOne({ email });
 
@@ -60,12 +60,19 @@ export const autenticar = async (req: Request, res: Response) => {
       return res.status(403).json({ message: error.message });
     }
 
-    const passHash = usuario?.password
+    const passHash = usuario?.password as string
 
-    const isCorrect = await isCorrectPass(password, passHash as string)
+    const isCorrect = await isCorrectPass(password, passHash)
 
     if (isCorrect) {
-      return res.json({ message: "Cuenta confirmada", usuario })
+      console.log(usuario)
+      return res.json(
+        {
+          message: "Usuario Logueado",
+          _id: usuario.id,
+          nombre: usuario.nombre,
+          email: usuario.email,
+        })
       const data = {
         // token,
       }
