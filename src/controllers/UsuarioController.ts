@@ -21,7 +21,7 @@ export const registrar = async (req: Request, res: Response) => {
 
     if (existeUsuario) {
       const error = new Error("El usuario ya existe");
-      res.status(400).json({ message: error.message, existeUsuario });
+      return res.status(400).json({ message: error.message, existeUsuario });
     }
 
 
@@ -30,7 +30,7 @@ export const registrar = async (req: Request, res: Response) => {
     const usuario = new Usermodel({ name, email, password: passHash });
     usuario.token = generarId()
     const usuarioAlmacenado = await usuario.save()
-    res.status(201).json({ message: "Usuario creado con exito", usuarioAlmacenado });
+    return res.status(201).json({ message: "Usuario creado con exito", usuarioAlmacenado });
 
   } catch (error) {
     console.log(error);
@@ -52,26 +52,26 @@ export const autenticar = async (req: Request, res: Response) => {
 
     if (!usuario) {
       const error = new Error("El usuario No existe");
-      res.status(404).json({ message: error.message, usuario });
+      return res.status(404).json({ message: error.message, usuario });
     }
 
     if (!usuario?.confirmado) {
       const error = new Error("Tu cuenta no ha sido confirmada");
-      res.status(403).json({ message: error.message });
+      return res.status(403).json({ message: error.message });
     }
 
     const passHash = usuario?.password
 
-    const isCorrect = await isCorrectPass(password, passHash as any)
+    const isCorrect = await isCorrectPass(password, passHash as string)
 
     if (isCorrect) {
-      res.json({ message: { usuario } })
+      return res.json({ message: "Cuenta confirmada", usuario })
       const data = {
         // token,
       }
     } else {
       const error = new Error("El password es Incorrecto");
-      res.status(403).json({ message: error.message });
+      return res.status(403).json({ message: error.message });
     }
   } catch (error) {
     console.log(error)

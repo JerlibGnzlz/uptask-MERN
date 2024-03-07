@@ -4,7 +4,6 @@ export interface IUser extends Document {
   password: string;
   token: string;
   confirmado: Boolean;
-  compararPassword: () => string
   // passwordHash?: string | undefined
   // comprobarPassword(password: string): Promise<boolean>;
 }
