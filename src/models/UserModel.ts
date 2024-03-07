@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import bcript from "bcrypt";
+import bcrypt from "bcrypt";
 
-import { User } from "../interfaces/user.Interfaces";
+import { IUser } from "../interfaces/user.Interfaces";
 
 const userSchema = new Schema(
   {
@@ -30,18 +30,24 @@ const userSchema = new Schema(
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
     versionKey: false,
   }
 );
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
-  }
+// userSchema.pre("save", async function (next) {
+//   if (!this.isModified("password")) {
+//     next();
+//   }
 
-  const salt = await bcript.genSalt(10);
-  this.password = await bcript.hash("this.password", salt);
-});
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash("this.password", salt);
+// });
 
-export const Usermodel = model<User>("User", userSchema);
+// userSchema.methods.comprobarPassword = async function (passwordTexto: string): Promise<boolean> {
+//   return await bcrypt.compare(passwordTexto, this.password)
+// }
+
+
+
+export const Usermodel = model<IUser>("User", userSchema)
