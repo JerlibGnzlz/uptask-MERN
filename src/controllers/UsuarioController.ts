@@ -1,8 +1,10 @@
+import { Types } from 'mongoose';
 import { Request, Response } from "express";
 import { Usermodel } from "../models/UserModel";
 import { generarId } from "../helpers/generarID";
 import { encryptPassword, isCorrectPass } from "../utils/bycript";
 import { IUser } from "../interfaces/user.Interfaces";
+import { generarJWT } from "../helpers/gerarJWT";
 
 export const registrar = async (req: Request, res: Response) => {
   /**
@@ -65,17 +67,31 @@ export const autenticar = async (req: Request, res: Response) => {
     const isCorrect = await isCorrectPass(password, passHash)
 
     if (isCorrect) {
-      console.log(usuario)
-      return res.json(
-        {
-          message: "Usuario Logueado",
-          _id: usuario.id,
-          nombre: usuario.nombre,
-          email: usuario.email,
-        })
+      console.log(usuario._id)
+
+      const usuarioJWT: Types.ObjectId = usuario._id;
+      const stringId: string = usuarioJWT.toString();
+      const tokenUsuario = generarJWT(stringId);
+
+      // return res.json({
+
+      //   message: "Usuario Logueado",
+      //   _id: usuario._id,
+      //   nombre: usuario.nombre,
+      //   email: usuario.email,
+      //   tokenUsuario
+      // })
+
       const data = {
-        // token,
+        _id: usuario._id,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        tokenUsuario
       }
+
+      const error = new Error("Session y Token Valido");
+      return res.status(200).json({ message: error.message, data });
+
     } else {
       const error = new Error("El password es Incorrecto");
       return res.status(403).json({ message: error.message });
