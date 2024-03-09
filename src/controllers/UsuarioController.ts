@@ -71,15 +71,6 @@ export const autenticar = async (req: Request, res: Response) => {
       const stringId: string = usuario._id.toString();
       const tokenUsuario = generarJWT(stringId);
 
-      // return res.json({
-
-      //   message: "Usuario Logueado",
-      //   _id: usuario._id,
-      //   nombre: usuario.nombre,
-      //   email: usuario.email,
-      //   tokenUsuario
-      // })
-
       const data = {
         _id: usuario._id,
         nombre: usuario.nombre,
@@ -117,7 +108,6 @@ export const confirmar = async (req: Request, res: Response) => {
 
 }
 
-
 export const olvidePassword = async (req: Request, res: Response) => {
 
   const { email } = req.body
@@ -138,4 +128,43 @@ export const olvidePassword = async (req: Request, res: Response) => {
   }
 }
 
+export const comprobarToken = async (req: Request, res: Response) => {
 
+  const { token } = req.params
+
+
+  const tokenValido = await Usermodel.findOne({ token });
+
+  if (tokenValido) {
+    res.json({ message: "Token valido y el usuario Existe" })
+  } else {
+    const error = new Error("Token no valido");
+    return res.status(404).json({ message: error.message, tokenValido });
+
+  }
+
+}
+
+export const nuevoPassword = async (req: Request, res: Response) => {
+  const { token } = req.params
+  const { password } = req.body
+
+  const usuario = await Usermodel.findOne({ token });
+
+  const passHash = await encryptPassword(password)
+  try {
+
+    if (usuario) {
+      usuario.password = passHash
+      usuario.token = ""
+      await usuario.save()
+      res.json({ message: "Password modificado Correctamente" })
+    } else {
+      const error = new Error("Token no valido o contraseña");
+      return res.status(404).json({ message: error.message });
+
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
