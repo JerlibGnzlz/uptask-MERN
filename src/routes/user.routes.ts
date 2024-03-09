@@ -5,8 +5,10 @@ import {
     confirmar,
     olvidePassword,
     comprobarToken,
-    nuevoPassword
+    nuevoPassword,
+    perfil
 } from "../controllers/UsuarioController";
+import { checkAuth } from "../middlewares/checkAuth";
 
 const router = Router();
 
@@ -19,5 +21,7 @@ router.get("/confirmar/:token", confirmar);
 router.post("/olvidePassword", olvidePassword);
 
 router.route("/olvidePassword/:token").get(comprobarToken).post(nuevoPassword)
+
+router.get("/perfil", checkAuth, perfil)
 
 export default router;
