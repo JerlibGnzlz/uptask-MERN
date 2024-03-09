@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import { Request, Response } from "express";
 import { Usermodel } from "../models/UserModel";
 import { generarId } from "../helpers/generarID";
@@ -69,8 +68,7 @@ export const autenticar = async (req: Request, res: Response) => {
     if (isCorrect) {
       console.log(usuario._id)
 
-      const usuarioJWT: Types.ObjectId = usuario._id;
-      const stringId: string = usuarioJWT.toString();
+      const stringId: string = usuario._id.toString();
       const tokenUsuario = generarJWT(stringId);
 
       // return res.json({
@@ -118,4 +116,26 @@ export const confirmar = async (req: Request, res: Response) => {
   }
 
 }
+
+
+export const olvidePassword = async (req: Request, res: Response) => {
+
+  const { email } = req.body
+
+  const usuario = await Usermodel.findOne({ email });
+
+  if (!usuario) {
+    const error = new Error("El usuario No existe");
+    return res.status(404).json({ message: error.message, usuario });
+  }
+
+  try {
+    usuario.token = generarId()
+    await usuario.save()
+    res.json({ message: "Hemos enviado un email con las Instrucciones" })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
