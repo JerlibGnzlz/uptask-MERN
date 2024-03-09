@@ -170,5 +170,7 @@ export const nuevoPassword = async (req: Request, res: Response) => {
 }
 
 export const perfil = async (req: Request, res: Response) => {
-  console.log("perfil")
+  const { usuario } = req
+  res.json(usuario)
+
 }
