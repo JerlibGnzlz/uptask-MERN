@@ -9,7 +9,7 @@ const { JWT_SECRET } = process.env
 declare global {
     namespace Express {
         interface Request {
-            usuario?: any;
+            usuario?: object;
         }
     }
 }
@@ -17,32 +17,27 @@ declare global {
 
 export const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
 
-    function esJwtPayload(obj: any): obj is JwtPayload {
-        return typeof obj === 'object' && 'id' in obj;
-    }
 
     if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
         try {
+
             const token = req.headers.authorization.split(" ")[ 1 ]
 
             const decoded = jwt.verify(token, JWT_SECRET as string)
-            // console.log(decoded)
-            if (esJwtPayload(decoded)) {
+
+            if (typeof decoded === 'object') {
 
                 req.usuario = await Usermodel.findById(decoded.id).select("-password -confirmado -token")
-                console.log(req.usuario)
+
+                next()
             }
-            return next()
-
         } catch (error) {
-            return res.status(404).json({ message: "Hubo un Error" })
+            res.status(404).json({ message: "Token de autorización no proporcionado" })
         }
-
-        if (!esJwtPayload) {
-            res.status(404).json({ message: "Token no valido" })
-        }
+    } else {
+        res.status(401).json({ message: "Hubo un Error" });
     }
-    next()
+
 }
 
 
