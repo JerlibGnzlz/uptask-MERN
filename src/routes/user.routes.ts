@@ -10,18 +10,24 @@ import {
 } from "../controllers/UsuarioController";
 import { checkAuth } from "../middlewares/checkAuth";
 
-const router = Router();
 
-router.post("/", registrar);
 
-router.post("/login", autenticar);
 
-router.get("/confirmar/:token", confirmar);
+export const userRoutes = Router();
 
-router.post("/olvidePassword", olvidePassword);
+userRoutes.post("/", registrar);
 
-router.route("/olvidePassword/:token").get(comprobarToken).post(nuevoPassword)
+userRoutes.post("/login", autenticar);
 
-router.get("/perfil", checkAuth, perfil)
+userRoutes.get("/confirmar/:token", confirmar);
 
-export default router;
+userRoutes.post("/olvidePassword", olvidePassword);
+
+userRoutes.route("/olvidePassword/:token")
+    .get(comprobarToken)
+    .post(nuevoPassword)
+
+userRoutes.get("/perfil", checkAuth, perfil)
+
+
+

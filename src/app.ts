@@ -3,7 +3,8 @@ import cors from "cors";
 import { dbConexion } from "./db";
 import express from "express";
 import morgan from "morgan";
-import userRoutes from "../src/routes/user.routes";
+import { userRoutes } from "../src/routes/user.routes";
+import { ProyectoRouter } from "./routes/proyecto.routes"
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.use(
   cors({
     credentials: true,
     origin: "*",
-    methods: ["POST", "GET", "DELETE", "PUT"],
+    methods: [ "POST", "GET", "DELETE", "PUT" ],
   })
 );
 
@@ -23,6 +24,7 @@ app.use(morgan("dev"));
 
 // app.use(router);
 app.use("/api/usuarios", userRoutes);
+app.use("/api/proyectos", ProyectoRouter);
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);

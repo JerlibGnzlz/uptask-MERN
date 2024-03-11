@@ -1,4 +1,4 @@
-export interface IProyect {
+export interface IProyecto {
     nombre: string;
     descripcion: string;
     fechaEntrega: string;

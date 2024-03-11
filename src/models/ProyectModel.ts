@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-import { IProyect } from "../interfaces/proyect.interfaces";
+import { IProyecto } from "../interfaces/proyect.interfaces";
 
 
 const proyectoSchema = new Schema(
@@ -43,4 +43,4 @@ const proyectoSchema = new Schema(
 
 
 
-export const Proyectmodel = model<IProyect>("Proyect", proyectoSchema)
+export const Proyectmodel = model<IProyecto>("Proyect", proyectoSchema)
