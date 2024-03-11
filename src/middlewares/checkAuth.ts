@@ -18,6 +18,8 @@ declare global {
 export const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
 
 
+
+
     if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
         try {
 
@@ -31,11 +33,13 @@ export const checkAuth = async (req: Request, res: Response, next: NextFunction)
 
                 next()
             }
+
+
         } catch (error) {
-            res.status(404).json({ message: "Token de autorización no proporcionado" })
+            return res.status(404).json({ message: "Token de autorización no proporcionado" })
         }
     } else {
-        res.status(401).json({ message: "Hubo un Error" });
+        return res.status(401).json({ message: "Hubo un Error" });
     }
 
 }

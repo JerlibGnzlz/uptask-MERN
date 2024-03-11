@@ -3,6 +3,6 @@ export interface IProyecto {
     descripcion: string;
     fechaEntrega: string;
     cliente: string;
-    creador: Boolean;
+    creador: string;
     colaboradores: Array<[]>;
 }

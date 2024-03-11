@@ -23,5 +23,7 @@ ProyectoRouter.route("/:id")
     .delete(checkAuth, eliiminarProyecto)
 
 ProyectoRouter.get("/tareas", checkAuth, obtenerTareas)
+
 ProyectoRouter.post("/agregar-colaborador/:id", checkAuth, agregarColaborador)
+
 ProyectoRouter.post("/eliminar-colaborador/:id", checkAuth, eliminarColaborador)
