@@ -1,13 +1,20 @@
 import { Request, Response } from "express";
 import { Proyectmodel } from "../models/ProyectModel";
 import { IProyecto } from "../interfaces/proyect.interfaces";
+import { equal } from "assert";
 
 
 export const obtenerProyectos = async (req: Request, res: Response) => {
 
-    const { email } = req.params as IProyecto
 
-    const proyecto = await Proyectmodel.findOne({ email })
+    const proyecto = await Proyectmodel.find(
+        { "creador": req.usuario })
+
+    try {
+        return res.status(201).json({ message: "Todos los proyectos", proyecto });
+    } catch (error) {
+        console.log(error)
+    }
 
 }
 
