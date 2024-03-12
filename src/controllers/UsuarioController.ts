@@ -11,7 +11,7 @@ export const registrar = async (req: Request, res: Response) => {
    */
   const { nombre, email, password } = req.body as IUser
 
-  const existeUsuario = await Usermodel.findOne({ email });
+  const existeUsuario = await Usermodel.findOne({ email }, { new: true });
 
   try {
 
@@ -42,7 +42,7 @@ export const autenticar = async (req: Request, res: Response) => {
 
   const { nombre, email, password } = req.body as IUser
 
-  const usuario = await Usermodel.findOne({ email });
+  const usuario = await Usermodel.findOne({ email }, { new: true });
 
   try {
 

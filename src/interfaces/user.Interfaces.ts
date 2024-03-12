@@ -5,4 +5,5 @@ export interface IUser {
   token: string;
   confirmado: Boolean;
   usuario: Object;
+  id: string;
 }
