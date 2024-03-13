@@ -39,10 +39,7 @@ export const obtenerTarea = async (req: Request, res: Response) => {
 
     const { id } = req.params
 
-    const usuario = req.usuario as IUser;
-
     try {
-
         const tarea = await TaskModel.findById(id).populate("proyecto")
 
         if (!tarea) {
@@ -60,10 +57,41 @@ export const obtenerTarea = async (req: Request, res: Response) => {
 
 export const actualizarTarea = async (req: Request, res: Response) => {
 
+    const { id } = req.params
+    const { data } = req.body
+
+    try {
+        const tarea = await TaskModel.findByIdAndUpdate(id, req.body, { new: true }).populate("proyecto")
+
+        if (!tarea) {
+            const error = new Error("Tarea no encontrada");
+            return res.status(404).json({ msg: error.message });
+        }
+
+        return res.json({ message: "Tarea Editada", tarea });
+    } catch (error) {
+        console.error("Error al Editadar la tarea:", error);
+        return res.status(500).json({ msg: "Error interno del servidor" });
+    }
 }
 
 export const eliminarTarea = async (req: Request, res: Response) => {
+    const { id } = req.params
 
+    const tarea = await TaskModel.findByIdAndDelete(id)
+
+    if (!tarea) {
+        const error = new Error("No Encontrado la tarea");
+        return res.status(404).json({ msg: error.message });
+    }
+
+
+    try {
+        return res.status(201).json({ message: "Tarea Eliminada", tarea });
+    } catch (error) {
+        console.error("Error al eliminar la tarea:", error);
+        return res.status(500).json({ message: "Hubo un error" });
+    }
 }
 
 

@@ -108,7 +108,7 @@ export const eliiminarProyecto = async (req: Request, res: Response) => {
     try {
         return res.status(201).json({ message: "Proyecto Eliminado", proyecto });
     } catch (error) {
-        console.error("Error al eliminars el proyecto:", error);
+        console.error("Error al eliminar el proyecto:", error);
         return res.status(500).json({ message: "Hubo un error" });
     }
 }
