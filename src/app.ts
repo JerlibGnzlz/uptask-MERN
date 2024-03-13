@@ -5,6 +5,7 @@ import express from "express";
 import morgan from "morgan";
 import { userRoutes } from "../src/routes/user.routes";
 import { ProyectoRouter } from "./routes/proyecto.routes"
+import { TareaRouter } from "./routes/tarea.routes"
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(morgan("dev"));
 // app.use(router);
 app.use("/api/usuarios", userRoutes);
 app.use("/api/proyectos", ProyectoRouter);
+app.use("/api/proyectos", TareaRouter);
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
