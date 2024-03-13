@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Usermodel } from "../models/UserModel";
+import { UserModel } from "../models/UserModel";
 import { generarId } from "../helpers/generarID";
 import { encryptPassword, isCorrectPass } from "../utils/bycript";
 import { IUser } from "../interfaces/user.Interfaces";
@@ -11,7 +11,7 @@ export const registrar = async (req: Request, res: Response) => {
    */
   const { nombre, email, password } = req.body as IUser
 
-  const existeUsuario = await Usermodel.findOne({ email }, { new: true });
+  const existeUsuario = await UserModel.findOne({ email }, { new: true });
 
   try {
 
@@ -28,7 +28,7 @@ export const registrar = async (req: Request, res: Response) => {
 
     const passHash = await encryptPassword(password)
 
-    const usuario = new Usermodel({ nombre, email, password: passHash });
+    const usuario = new UserModel({ nombre, email, password: passHash });
     usuario.token = generarId()
     const usuarioAlmacenado = await usuario.save()
     return res.status(201).json({ message: "Usuario creado con exito", usuarioAlmacenado });
@@ -42,7 +42,7 @@ export const autenticar = async (req: Request, res: Response) => {
 
   const { nombre, email, password } = req.body as IUser
 
-  const usuario = await Usermodel.findOne({ email }, { new: true });
+  const usuario = await UserModel.findOne({ email }, { new: true });
 
   try {
 
@@ -91,7 +91,7 @@ export const autenticar = async (req: Request, res: Response) => {
 }
 export const confirmar = async (req: Request, res: Response) => {
   const { token } = req.params
-  const usuarioConfirmar = await Usermodel.findOne({ token })
+  const usuarioConfirmar = await UserModel.findOne({ token })
 
   if (!usuarioConfirmar) {
     const error = new Error("Token no valido");
@@ -112,7 +112,7 @@ export const olvidePassword = async (req: Request, res: Response) => {
 
   const { email } = req.body
 
-  const usuario = await Usermodel.findOne({ email });
+  const usuario = await UserModel.findOne({ email });
 
   if (!usuario) {
     const error = new Error("El usuario No existe");
@@ -133,7 +133,7 @@ export const comprobarToken = async (req: Request, res: Response) => {
   const { token } = req.params
 
 
-  const tokenValido = await Usermodel.findOne({ token });
+  const tokenValido = await UserModel.findOne({ token });
 
   if (tokenValido) {
     res.json({ message: "Token valido y el usuario Existe" })
@@ -149,7 +149,7 @@ export const nuevoPassword = async (req: Request, res: Response) => {
   const { token } = req.params
   const { password } = req.body
 
-  const usuario = await Usermodel.findOne({ token });
+  const usuario = await UserModel.findOne({ token });
 
   const passHash = await encryptPassword(password)
   try {

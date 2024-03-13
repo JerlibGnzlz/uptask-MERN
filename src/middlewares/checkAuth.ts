@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Response, Request, NextFunction } from "express"
-import { Usermodel } from "../models/UserModel";
+import { UserModel } from "../models/UserModel";
 import { token } from "morgan";
 
 
@@ -29,7 +29,7 @@ export const checkAuth = async (req: Request, res: Response, next: NextFunction)
 
             if (typeof decoded === 'object') {
 
-                req.usuario = await Usermodel.findById(decoded.id).select("-password -confirmado -token")
+                req.usuario = await UserModel.findById(decoded.id).select("-password -confirmado -token")
 
                 next()
             }

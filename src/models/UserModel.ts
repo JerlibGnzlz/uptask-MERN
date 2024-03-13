@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-import bcrypt from "bcrypt";
 
 import { IUser } from "../interfaces/user.Interfaces";
 
@@ -36,4 +35,4 @@ const userSchema = new Schema(
 );
 
 
-export const Usermodel = model<IUser>("User", userSchema)
+export const UserModel = model<IUser>("User", userSchema)

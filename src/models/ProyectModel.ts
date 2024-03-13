@@ -43,4 +43,4 @@ const proyectoSchema = new Schema(
 
 
 
-export const Proyectmodel = model<IProyecto>("Proyect", proyectoSchema)
+export const ProyectModel = model<IProyecto>("Proyect", proyectoSchema)
