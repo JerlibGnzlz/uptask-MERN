@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ProyectModel } from "../models/ProyectModel";
-import { IProyecto } from "../interfaces/proyect.interfaces";
+// import { IProyecto } from "../interfaces/proyect.interfaces";
 import { IUser } from "../interfaces/user.Interfaces";
 
 

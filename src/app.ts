@@ -26,7 +26,7 @@ app.use(morgan("dev"));
 // app.use(router);
 app.use("/api/usuarios", userRoutes);
 app.use("/api/proyectos", ProyectoRouter);
-app.use("/api/proyectos", TareaRouter);
+app.use("/api/tarea", TareaRouter);
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);

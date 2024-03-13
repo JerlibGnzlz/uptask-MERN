@@ -42,7 +42,7 @@ export const autenticar = async (req: Request, res: Response) => {
 
   const { nombre, email, password } = req.body as IUser
 
-  const usuario = await UserModel.findOne({ email }, { new: true });
+  const usuario = await UserModel.findOne({ email });
 
   try {
 
@@ -56,7 +56,7 @@ export const autenticar = async (req: Request, res: Response) => {
       return res.status(404).json({ message: error.message, usuario });
     }
 
-    if (!usuario?.confirmado) {
+    if (!usuario.confirmado) {
       const error = new Error("Tu cuenta no ha sido confirmada");
       return res.status(403).json({ message: error.message });
     }
@@ -66,7 +66,6 @@ export const autenticar = async (req: Request, res: Response) => {
     const isCorrect = await isCorrectPass(password, passHash)
 
     if (isCorrect) {
-      console.log(usuario._id)
 
       const stringId: string = usuario._id.toString();
       const tokenUsuario = generarJWT(stringId);
