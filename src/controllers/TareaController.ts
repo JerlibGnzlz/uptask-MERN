@@ -1,7 +1,8 @@
 import { Request, Response } from "express"
 import { ProyectModel } from "../models/ProyectModel"
 import { IUser } from "../interfaces/user.Interfaces"
-import { TaskModel } from "../models/TareasModel"
+import { TaskModel } from '../models/TareasModel';
+import { IProyecto } from '../interfaces/proyect.interfaces';
 
 
 
@@ -34,6 +35,26 @@ export const agregarTarea = async (req: Request, res: Response) => {
 
 
 export const obtenerTarea = async (req: Request, res: Response) => {
+
+
+    const { id } = req.params
+
+    const usuario = req.usuario as IUser;
+
+    try {
+
+        const tarea = await TaskModel.findById(id).populate("proyecto")
+
+        if (!tarea) {
+            const error = new Error("Tarea no encontrada");
+            return res.status(404).json({ msg: error.message });
+        }
+
+        return res.json({ message: "Tarea encontrada", tarea });
+    } catch (error) {
+        console.error("Error al obtener la tarea:", error);
+        return res.status(500).json({ msg: "Error interno del servidor" });
+    }
 
 }
 
