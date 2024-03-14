@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ProyectModel } from "../models/ProyectModel";
 // import { IProyecto } from "../interfaces/proyect.interfaces";
 import { IUser } from "../interfaces/user.Interfaces";
+import { TaskModel } from '../models/TareasModel';
 
 
 export const obtenerProyectos = async (req: Request, res: Response) => {
@@ -45,7 +46,7 @@ export const obtenerProyecto = async (req: Request, res: Response) => {
 
     const { id } = req.params
 
-    const proyecto = await ProyectModel.findById(id)
+    const proyecto = await ProyectModel.findById(id).populate("")
 
     const usuario = req.usuario as IUser;
 
@@ -57,7 +58,14 @@ export const obtenerProyecto = async (req: Request, res: Response) => {
         const error = new Error("Accion no Valida");
         return res.status(401).json({ msg: error.message });
     }
-    return res.json({ message: "Nombre del proyecto", proyecto });
+
+
+    const tareas = await TaskModel.find({ "proyecto": proyecto.id })
+    return res.json({
+        tareas,
+        proyecto
+    });
+
 }
 
 export const editarProyecto = async (req: Request, res: Response) => {
@@ -125,7 +133,3 @@ export const eliminarColaborador = async (req: Request, res: Response) => {
 
 }
 
-export const obtenerTareas = async (req: Request, res: Response) => {
-
-
-}

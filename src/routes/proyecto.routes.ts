@@ -1,6 +1,5 @@
 import { Router } from "express";
 import {
-    obtenerTareas,
     agregarColaborador,
     editarProyecto,
     eliiminarProyecto,
@@ -22,7 +21,6 @@ ProyectoRouter.route("/:id")
     .put(checkAuth, editarProyecto)
     .delete(checkAuth, eliiminarProyecto)
 
-ProyectoRouter.get("/tareas", checkAuth, obtenerTareas)
 
 ProyectoRouter.post("/agregar-colaborador/:id", checkAuth, agregarColaborador)
 
